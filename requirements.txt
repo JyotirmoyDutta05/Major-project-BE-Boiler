@@ -6,3 +6,4 @@ pyyaml
 plotly
 requests
 python-dotenv
+tensorflow>=2.10.0

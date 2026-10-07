@@ -231,21 +231,21 @@ vibration_is_nan
 
 ### `src/anomaly_detector.py` — ML Anomaly Detection
 
-**Purpose:** Uses Isolation Forest to detect multivariate anomalies.
+**Purpose:** Uses a TensorFlow Deep Learning Autoencoder to detect multivariate anomalies.
 
 **How it works:**
-1. **Training:** Fits on NORMAL data only (learns what "healthy" looks like).
-2. **Prediction:** Scores the latest 10 readings and averages them, so one noisy reading cannot flip the result. The raw Isolation Forest decision value is mapped to 0–1 with a smooth sigmoid.
-   - Score near 0 = normal (NORMAL scenario scores ~0.02)
-   - Score above 0.5 = anomalous
+1. **Training:** Fits a 3-layer neural network (16-8-16) on NORMAL data only to learn how to reconstruct healthy sensor values.
+2. **Prediction:** Scores the latest 10 readings. The Autoencoder attempts to reconstruct the data. The Mean Squared Error (MSE) of this reconstruction is calculated. If the data is anomalous, the MSE spikes. The MSE is mapped to a 0–1 score with a smooth sigmoid.
+   - Score near 0 = normal (reconstruction error is low)
+   - Score above 0.5 = anomalous (reconstruction error is high)
 3. **Features:** rolling means of `furnace_temperature`, `steam_pressure`, `steam_flow`, `vibration`, plus `furnace_temperature_residual`. Rolling means are used instead of single-point deltas because deltas are dominated by sensor noise.
 
-**Why Isolation Forest?**
-- It's unsupervised — no need for labeled anomaly data.
-- It's lightweight — runs in milliseconds.
-- It works well for detecting deviations from a known "normal" baseline.
+**Why TensorFlow Autoencoder?**
+- It leverages Deep Learning for complex non-linear pattern recognition.
+- It's unsupervised — it only needs healthy data to learn the baseline.
+- It satisfies the "TensorFlow Agents" requirement in the project title.
 
-**Saved model:** `models/anomaly_detector.pkl`
+**Saved model:** `models/anomaly_detector.keras` and `models/scaler.pkl`
 
 ---
 

@@ -310,7 +310,7 @@ else:
     # ---- TAB 7: MODEL PERFORMANCE ----
     with tab7:
         st.header("Model Performance")
-        st.write("**Model:** Isolation Forest (sklearn)")
+        st.write("**Model:** TensorFlow Autoencoder (Keras)")
         st.write("**Training Data:** NORMAL scenario (1000 samples)")
         st.write("**Features used:** " + ", ".join(f"`{f}`" for f in FEATURES))
         st.write(f"**Scoring:** average anomaly score over the latest {SCORING_WINDOW} readings")
