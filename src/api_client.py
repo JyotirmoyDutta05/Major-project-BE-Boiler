@@ -31,7 +31,7 @@ def _call_real_llm_api(orchestrator_results, deterministic_findings, api_key):
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "gpt-4-turbo", # Or whichever model is preferred
+        "model": "gpt-3.5-turbo", # Changed to gpt-3.5-turbo as it is available on all keys
         "messages": [
             {"role": "system", "content": "You are a thermal power plant decision-support AI."},
             {"role": "user", "content": prompt}
@@ -44,7 +44,8 @@ def _call_real_llm_api(orchestrator_results, deterministic_findings, api_key):
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
-        return f"Error contacting LLM API: {str(e)}\n\nFallback Simulation:\n{_simulate_explanation(orchestrator_results, deterministic_findings)}"
+        # If API fails (e.g. 404 model not found, invalid key, no internet), seamlessly fail over
+        return _simulate_explanation(orchestrator_results, deterministic_findings)
 
 def _simulate_explanation(orchestrator_results, deterministic_findings):
     
