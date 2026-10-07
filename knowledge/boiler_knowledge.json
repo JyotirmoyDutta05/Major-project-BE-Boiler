@@ -1,0 +1,11 @@
+{
+  "RMDS": {
+    "purpose": "Remote monitoring and diagnostic system for thermal power plants",
+    "capabilities": [
+      "remote monitoring",
+      "diagnostics",
+      "predictive analytics",
+      "forecasting"
+    ]
+  }
+}
